@@ -9,13 +9,16 @@ android {
     namespace = "com.example.parcial02"
     compileSdk = 36
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.parcial02"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,6 +41,7 @@ android {
         jvmTarget = "11"
     }
 }
+
 
 dependencies {
     // AndroidX y Material

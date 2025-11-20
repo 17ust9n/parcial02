@@ -2,21 +2,18 @@ package com.example.parcial02.data.remote
 
 import com.example.parcial02.data.remote.models.MedicoRemote
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 class MedicoRemoteDataSource(
     private val db: FirebaseFirestore = FirebaseService.db
 ) {
 
-    fun getAllMedicos(onSuccess: (List<MedicoRemote>) -> Unit) {
-        db.collection("medicos")
-            .get()
-            .addOnSuccessListener { snap ->
-                val list = snap.toObjects(MedicoRemote::class.java)
-                onSuccess(list)
-            }
+    suspend fun getAllMedicos(): List<MedicoRemote> {
+        val snapshot = db.collection("medicos").get().await()
+        return snapshot.toObjects(MedicoRemote::class.java)
     }
 
-    fun addMedico(medico: MedicoRemote) {
-        db.collection("medicos").add(medico)
+    suspend fun addMedico(medico: MedicoRemote) {
+        db.collection("medicos").add(medico).await()
     }
 }

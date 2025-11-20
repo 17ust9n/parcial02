@@ -7,50 +7,49 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.parcial02.data.local.database.AppDatabase
-import com.example.parcial02.data.remote.firebase.PacienteRemoteDataSource
-import com.example.parcial02.databinding.FragmentPacientesBinding
-import com.example.parcial02.sync.PacienteSyncManager
+import com.example.parcial02.data.remote.PacienteRemoteDataSource
+import com.example.parcial02.sync.PacienteSyncRepository
 
 class PacientesFragment : Fragment() {
 
-    private lateinit var binding: FragmentPacientesBinding
     private lateinit var viewModel: PacienteViewModel
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPacientesBinding.inflate(inflater, container, false)
-        return binding.root
+        // RecyclerView simple sin ViewBinding
+        recyclerView = RecyclerView(requireContext())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        return recyclerView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Database + DAO
+        // 1️⃣ Inicializar DB y DAO
         val db = AppDatabase.getInstance(requireContext())
         val dao = db.pacienteDao()
 
-        // Remote & Sync
+        // 2️⃣ Inicializar RemoteDataSource y Repository
         val remote = PacienteRemoteDataSource()
-        val sync = PacienteSyncManager(dao, remote)
+        val repository = PacienteSyncRepository(dao, remote)
 
-        // Factory para el ViewModel
-        val factory = PacienteViewModelFactory(sync, dao)
+        // 3️⃣ Crear ViewModelFactory y ViewModel
+        val factory = PacienteViewModelFactory(repository, dao)
+        viewModel = ViewModelProvider(this, factory)
+            .get(PacienteViewModel::class.java)
 
-        // Instanciar ViewModel con factory
-        viewModel = ViewModelProvider(this, factory)[PacienteViewModel::class.java]
-
-        // Configurar RecyclerView
-        binding.recyclerPacientes.layoutManager = LinearLayoutManager(requireContext())
-
-        // Cargar datos al iniciar
-        viewModel.cargarPacientes()
-
-        // Observar cambios
+        // 4️⃣ Observar LiveData y asignar Adapter
         viewModel.pacientes.observe(viewLifecycleOwner) { lista ->
-            binding.recyclerPacientes.adapter = PacientesAdapter(lista)
+            recyclerView.adapter = PacientesAdapter(lista)
         }
+
+        // 5️⃣ Sincronizar datos
+        viewModel.cargarPacientes()
     }
 }
