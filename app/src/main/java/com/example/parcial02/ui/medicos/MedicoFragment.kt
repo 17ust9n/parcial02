@@ -1,55 +1,47 @@
 package com.example.parcial02.ui.medicos
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.parcial02.data.local.database.AppDatabase
-import com.example.parcial02.data.remote.MedicoRemoteDataSource
-import com.example.parcial02.sync.MedicoSyncRepository
+import com.example.parcial02.R
+import com.example.parcial02.data.local.entities.MedicoEntity
 
 class MedicosFragment : Fragment() {
 
-    private lateinit var viewModel: MedicoViewModel
     private lateinit var recyclerView: RecyclerView
+    private val adapter = MedicosAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // RecyclerView simple sin ViewBinding
-        recyclerView = RecyclerView(requireContext())
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        return recyclerView
+        return inflater.inflate(R.layout.fragment_medicos, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 1️⃣ Inicializar DB y DAO
-        val db = AppDatabase.getInstance(requireContext())
-        val dao = db.medicoDao()
+        recyclerView = view.findViewById(R.id.rvMedicos)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
 
-        // 2️⃣ Inicializar RemoteDataSource y Repository
-        val remote = MedicoRemoteDataSource()
-        val repository = MedicoSyncRepository(dao, remote)
+        Log.d("MedicosFragment", "onViewCreated ejecutado")
 
-        // 3️⃣ Crear ViewModelFactory y ViewModel
-        val factory = MedicoViewModelFactory(repository, dao)
-        viewModel = ViewModelProvider(this, factory)
-            .get(MedicoViewModel::class.java)
+        // Datos de prueba
+        val medicosPrueba = listOf(
+            MedicoEntity(id = 1, nombre = "Dr. Juan", apellido = "Pérez", especialidad = "Cardiología"),
+            MedicoEntity(id = 2, nombre = "Dra. Ana", apellido = "García", especialidad = "Pediatría"),
+            MedicoEntity(id = 3, nombre = "Dr. Luis", apellido = "Martínez", especialidad = "Dermatología")
+        )
 
-        // 4️⃣ Observar LiveData y asignar Adapter
-        viewModel.medicos.observe(viewLifecycleOwner) { lista ->
-            recyclerView.adapter = MedicosAdapter(lista)
-        }
-
-        // 5️⃣ Sincronizar datos
-        viewModel.cargarMedicos()
+        // Mostrar datos en la tabla
+        adapter.updateData(medicosPrueba)
+        Log.d("MedicosFragment", "Médicos cargados: ${medicosPrueba.size}")
     }
 }

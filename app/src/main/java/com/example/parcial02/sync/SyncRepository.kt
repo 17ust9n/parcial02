@@ -16,13 +16,15 @@ class SyncRepository(
     suspend fun syncAll() = withContext(Dispatchers.IO) {
 
         // Médicos
-        medicoRemote.getAllMedicos { remoteList ->
-            medicoDao.insertAll(remoteList.map { it.toLocal() })
-        }
+        suspend fun syncAll() = withContext(Dispatchers.IO) {
 
-        // Pacientes
-        pacienteRemote.getAllPacientes { remoteList ->
-            pacienteDao.insertAll(remoteList.map { it.toLocal() })
+            // Médicos
+            val medicoList = medicoRemote.getAllMedicos()
+            medicoDao.insertAll(medicoList.map { it.toLocal() })
+
+            // Pacientes
+            val pacienteList = pacienteRemote.getAllPacientes()
+            pacienteDao.insertAll(pacienteList.map { it.toLocal() })
         }
     }
 }

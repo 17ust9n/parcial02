@@ -12,6 +12,9 @@ interface MedicoDao {
     @Query("SELECT * FROM medicos")
     fun getAll(): LiveData<List<MedicoEntity>>
 
+    @Query("SELECT * FROM medicos WHERE id = :id")
+    suspend fun getById(id: Int): List<MedicoEntity>
+
     @Insert
     suspend fun insert(medico: MedicoEntity)
 

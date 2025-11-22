@@ -9,8 +9,8 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["edad"])] // índice opcional para búsquedas por edad
 )
 data class PacienteEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = false)  // <-- Usamos el ID de Firebase
+    val id: Int,
     val nombre: String,
     val apellido: String,
     val edad: Int

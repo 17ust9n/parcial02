@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Parcial 02</string>
+    <string name="app_name">Parcial02</string>
+
+    <!-- Login / Register -->
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="register">Registrarse</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="go_to_register">¿No tienes cuenta? Regístrate</string>
+    <string name="back_to_login">Volver a Login</string>
 </resources>

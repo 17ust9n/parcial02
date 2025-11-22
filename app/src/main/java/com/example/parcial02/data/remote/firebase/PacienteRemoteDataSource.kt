@@ -1,19 +1,19 @@
 package com.example.parcial02.data.remote
 
 import com.example.parcial02.data.remote.models.PacienteRemote
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 
-class PacienteRemoteDataSource(
-    private val db: FirebaseFirestore = FirebaseService.db
-) {
+class PacienteRemoteDataSource {
 
+    // Datos de prueba hardcodeados
     suspend fun getAllPacientes(): List<PacienteRemote> {
-        val snapshot = db.collection("pacientes").get().await()
-        return snapshot.toObjects(PacienteRemote::class.java)
+        return listOf(
+            PacienteRemote(1, "Juan", "Pérez", 30),
+            PacienteRemote(2, "Ana", "García", 25),
+            PacienteRemote(3, "Luis", "Martínez", 40)
+        )
     }
 
     suspend fun addPaciente(paciente: PacienteRemote) {
-        db.collection("pacientes").add(paciente).await()
+        // No hace nada, solo para cumplir la interfaz
     }
 }

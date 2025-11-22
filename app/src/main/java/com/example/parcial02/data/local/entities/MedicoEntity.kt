@@ -6,12 +6,14 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "medicos",
-    indices = [Index(value = ["especialidad"])] // índice opcional para búsquedas por especialidad
+    indices = [
+        Index(value = ["especialidad"]) // Índice para búsquedas más rápidas por especialidad
+    ]
 )
 data class MedicoEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val nombre: String,
-    val apellido: String,
-    val especialidad: String
+    val id: Int = 0,          // ID autogenerado por Room
+    val nombre: String,       // Nombre del médico
+    val apellido: String,     // Apellido del médico
+    val especialidad: String  // Especialidad médica
 )

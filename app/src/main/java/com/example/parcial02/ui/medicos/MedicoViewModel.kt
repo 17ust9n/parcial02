@@ -1,4 +1,3 @@
-// MedicoViewModel.kt
 package com.example.parcial02.ui.medicos
 
 import androidx.lifecycle.*
@@ -12,11 +11,16 @@ class MedicoViewModel(
     private val dao: MedicoDao
 ) : ViewModel() {
 
+    // LiveData de todos los médicos
     val medicos: LiveData<List<MedicoEntity>> = dao.getAll()
 
-    fun cargarMedicos() {
+    /**
+     * Carga médicos desde Firebase y los guarda en Room.
+     * @param id opcional, si se indica, solo sincroniza ese médico
+     */
+    fun cargarMedicos(id: Int? = null) {
         viewModelScope.launch {
-            repository.syncMedicos()
+            repository.syncMedicos(id)
         }
     }
 }

@@ -13,8 +13,12 @@ fun MedicoRemote.toEntity() = MedicoEntity(
 )
 
 // PacienteRemote → PacienteEntity
-fun PacienteRemote.toEntity() = PacienteEntity(
-    nombre = this.nombre,
-    apellido = this.apellido,
-    edad = this.edad
-)
+fun PacienteRemote.toEntity(): PacienteEntity {
+    return PacienteEntity(
+        id = this.id,          // ID de Firebase
+        nombre = this.nombre,
+        apellido = this.apellido,
+        edad = this.edad
+    )
+}
+

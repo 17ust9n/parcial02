@@ -9,9 +9,23 @@ class MedicoSyncRepository(
     private val remote: MedicoRemoteDataSource
 ) {
 
-    suspend fun syncMedicos() {
-        val lista = remote.getAllMedicos()
-        val entities = lista.map { it.toEntity() }
+    /**
+     * Sincroniza todos los médicos desde Firebase y los guarda en Room.
+     * Si se pasa un ID, solo se sincroniza ese médico.
+     */
+    suspend fun syncMedicos(id: Int? = null) {
+        // Obtener lista remota
+        val listaRemota = remote.getAllMedicos()
+
+        // Filtrar por ID si se indicó
+        val listaFiltrada = id?.let { uid ->
+            listaRemota.filter { it.id == uid }
+        } ?: listaRemota
+
+        // Mapear a entidades locales
+        val entities = listaFiltrada.map { it.toEntity() }
+
+        // Guardar en Room
         dao.insertAll(entities)
     }
 }
