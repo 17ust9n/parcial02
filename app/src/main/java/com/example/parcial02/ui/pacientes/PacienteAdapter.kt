@@ -10,11 +10,11 @@ import com.example.parcial02.data.local.entities.PacienteEntity
 
 class PacientesAdapter : RecyclerView.Adapter<PacientesAdapter.PacienteViewHolder>() {
 
-    private val lista: MutableList<PacienteEntity> = mutableListOf()
+    private var pacientes = listOf<PacienteEntity>()
 
-    class PacienteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nombreText: TextView = itemView.findViewById(R.id.txtNombre)
-        val edadText: TextView = itemView.findViewById(R.id.txtEdad)
+    fun updateData(newPacientes: List<PacienteEntity>) {
+        pacientes = newPacientes
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PacienteViewHolder {
@@ -24,16 +24,24 @@ class PacientesAdapter : RecyclerView.Adapter<PacientesAdapter.PacienteViewHolde
     }
 
     override fun onBindViewHolder(holder: PacienteViewHolder, position: Int) {
-        val paciente = lista[position]
-        holder.nombreText.text = "${paciente.nombre} ${paciente.apellido}"
-        holder.edadText.text = "Edad: ${paciente.edad} años"
+        holder.bind(pacientes[position])
     }
 
-    override fun getItemCount(): Int = lista.size
+    override fun getItemCount() = pacientes.size
 
-    fun updateData(newLista: List<PacienteEntity>) {
-        lista.clear()
-        lista.addAll(newLista)
-        notifyDataSetChanged()
+    class PacienteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvNombrePaciente: TextView = itemView.findViewById(R.id.tvNombrePaciente)
+        private val tvEdad: TextView = itemView.findViewById(R.id.tvEdad)
+        private val tvTelefono: TextView = itemView.findViewById(R.id.tvTelefono)
+        private val tvEmail: TextView = itemView.findViewById(R.id.tvEmail)
+        private val tvDiagnostico: TextView = itemView.findViewById(R.id.tvDiagnostico)
+
+        fun bind(paciente: PacienteEntity) {
+            tvNombrePaciente.text = "${paciente.nombre} ${paciente.apellido}"
+            tvEdad.text = "${paciente.edad} años"
+            tvTelefono.text = paciente.telefono
+            tvEmail.text = paciente.email
+            tvDiagnostico.text = paciente.diagnostico
+        }
     }
 }

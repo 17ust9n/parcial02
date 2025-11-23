@@ -26,16 +26,6 @@
             android:name=".MainActivity"
             android:exported="false" />
 
-        <!-- MedicosActivity -->
-        <activity
-            android:name=".ui.medicos.MedicosActivity"
-            android:exported="false" />
-
-        <!-- PacientesActivity -->
-        <activity
-            android:name=".ui.pacientes.PacientesActivity"
-            android:exported="false" />
-
     </application>
 
 </manifest>

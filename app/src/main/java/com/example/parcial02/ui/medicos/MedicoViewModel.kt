@@ -11,16 +11,11 @@ class MedicoViewModel(
     private val dao: MedicoDao
 ) : ViewModel() {
 
-    // LiveData de todos los médicos
     val medicos: LiveData<List<MedicoEntity>> = dao.getAll()
 
-    /**
-     * Carga médicos desde Firebase y los guarda en Room.
-     * @param id opcional, si se indica, solo sincroniza ese médico
-     */
-    fun cargarMedicos(id: Int? = null) {
+    fun cargarMedicos() {
         viewModelScope.launch {
-            repository.syncMedicos(id)
+            repository.syncMedicos()   // <-- YA NO LLEVA PARÁMETROS
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.example.parcial02.sync
 
 import com.example.parcial02.data.local.dao.MedicoDao
-import com.example.parcial02.data.mappers.toEntity
 import com.example.parcial02.data.remote.MedicoRemoteDataSource
+import com.example.parcial02.data.remote.toLocal
 
 class MedicoSyncRepository(
     private val dao: MedicoDao,
@@ -11,19 +11,13 @@ class MedicoSyncRepository(
 
     /**
      * Sincroniza todos los médicos desde Firebase y los guarda en Room.
-     * Si se pasa un ID, solo se sincroniza ese médico.
      */
-    suspend fun syncMedicos(id: Int? = null) {
+    suspend fun syncMedicos() {
         // Obtener lista remota
         val listaRemota = remote.getAllMedicos()
 
-        // Filtrar por ID si se indicó
-        val listaFiltrada = id?.let { uid ->
-            listaRemota.filter { it.id == uid }
-        } ?: listaRemota
-
         // Mapear a entidades locales
-        val entities = listaFiltrada.map { it.toEntity() }
+        val entities = listaRemota.map { it.toLocal() }
 
         // Guardar en Room
         dao.insertAll(entities)
