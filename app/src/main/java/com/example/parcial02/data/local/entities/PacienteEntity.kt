@@ -5,12 +5,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "pacientes")
 data class PacienteEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val nombre: String,
-    val apellido: String,
-    val edad: Int,
-    val telefono: String,
-    val email: String,
-    val diagnostico: String
+    @PrimaryKey(autoGenerate = true)  // Agrega esto
+    var id: Int = 0,
+    var nombre: String,
+    var apellido: String,
+    var edad: String,
+    var telefono: String,
+    var email: String,
+    var diagnostico: String
 )

@@ -10,11 +10,11 @@ import androidx.room.Index
 )
 data class MedicoEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,          // Room genera automáticamente el id
-    val nombre: String,
-    val apellido: String,
-    val especialidad: String,
-    val telefono: String,
-    val email: String,
-    val horario: String
+    var id: Int = 0,          // Room genera automáticamente el id
+    var nombre: String,
+    var apellido: String,
+    var especialidad: String,
+    var telefono: String,
+    var email: String,
+    var horario: String
 )

@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.parcial02.R
 import com.example.parcial02.data.local.entities.MedicoEntity
 
-class MedicosAdapter : RecyclerView.Adapter<MedicosAdapter.MedicoViewHolder>() {
+class MedicosAdapter(
+    private val onItemClick: ((MedicoEntity) -> Unit)? = null
+) : RecyclerView.Adapter<MedicosAdapter.MedicoViewHolder>() {
 
     private val lista: MutableList<MedicoEntity> = mutableListOf()
 
@@ -28,11 +30,16 @@ class MedicosAdapter : RecyclerView.Adapter<MedicosAdapter.MedicoViewHolder>() {
 
     override fun onBindViewHolder(holder: MedicoViewHolder, position: Int) {
         val medico = lista[position]
+
         holder.nombreText.text = "${medico.nombre} ${medico.apellido}"
         holder.especialidadText.text = "Especialidad: ${medico.especialidad}"
         holder.telefonoText.text = "Teléfono: ${medico.telefono}"
         holder.emailText.text = "Email: ${medico.email}"
         holder.horarioText.text = "Horario: ${medico.horario}"
+
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(medico)
+        }
     }
 
     override fun getItemCount(): Int = lista.size
@@ -42,4 +49,6 @@ class MedicosAdapter : RecyclerView.Adapter<MedicosAdapter.MedicoViewHolder>() {
         lista.addAll(newLista)
         notifyDataSetChanged()
     }
+
+    fun getLista(): MutableList<MedicoEntity> = lista
 }

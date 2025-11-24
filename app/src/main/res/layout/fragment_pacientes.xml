@@ -80,7 +80,7 @@
 
             </LinearLayout>
 
-            <!-- Indicador de scroll (opcional) -->
+            <!-- Indicador de scroll -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,13 +90,46 @@
                 android:textColor="#999999"
                 android:layout_marginBottom="16dp"/>
 
+            <!-- Botón Añadir Paciente -->
+            <Button
+                android:id="@+id/btnAnadirPaciente"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="+ Añadir Paciente"
+                android:backgroundTint="#4CAF50"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Botón Modificar Paciente -->
+            <Button
+                android:id="@+id/btnModificarPaciente"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="✎ Modificar Paciente"
+                android:backgroundTint="#FF9800"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Botón Eliminar Paciente -->
+            <Button
+                android:id="@+id/btnEliminarPaciente"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="✕ Eliminar Paciente"
+                android:backgroundTint="#F44336"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+
             <!-- Botón Volver -->
             <Button
                 android:id="@+id/btnVolver"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="Volver"
-                android:backgroundTint="#2196F3"
+                android:backgroundTint="#757575"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"/>
 

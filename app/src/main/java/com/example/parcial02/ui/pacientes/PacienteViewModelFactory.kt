@@ -10,11 +10,12 @@ class PacienteViewModelFactory(
     private val repository: PacienteSyncRepository,
     private val dao: PacienteDao
 ) : ViewModelProvider.Factory {
-
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PacienteViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
             return PacienteViewModel(repository, dao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+

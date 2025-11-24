@@ -8,13 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.parcial02.R
 import com.example.parcial02.data.local.entities.PacienteEntity
 
-class PacientesAdapter : RecyclerView.Adapter<PacientesAdapter.PacienteViewHolder>() {
+class PacienteAdapter(
+    private val onItemClick: (PacienteEntity) -> Unit = {}
+) : RecyclerView.Adapter<PacienteAdapter.PacienteViewHolder>() {
 
-    private var pacientes = listOf<PacienteEntity>()
+    private val lista = mutableListOf<PacienteEntity>()
 
-    fun updateData(newPacientes: List<PacienteEntity>) {
-        pacientes = newPacientes
-        notifyDataSetChanged()
+    class PacienteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val nombreText: TextView = itemView.findViewById(R.id.tvNombrePaciente)
+        val edadText: TextView = itemView.findViewById(R.id.tvEdad)
+        val telefonoText: TextView = itemView.findViewById(R.id.tvTelefono)
+        val emailText: TextView = itemView.findViewById(R.id.tvEmail)
+        val diagnosticoText: TextView = itemView.findViewById(R.id.tvDiagnostico)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PacienteViewHolder {
@@ -24,24 +29,27 @@ class PacientesAdapter : RecyclerView.Adapter<PacientesAdapter.PacienteViewHolde
     }
 
     override fun onBindViewHolder(holder: PacienteViewHolder, position: Int) {
-        holder.bind(pacientes[position])
-    }
+        val paciente = lista[position]
+        holder.nombreText.text = "${paciente.nombre} ${paciente.apellido}"
+        holder.edadText.text = "Edad: ${paciente.edad}"
+        holder.telefonoText.text = paciente.telefono
+        holder.emailText.text = paciente.email
+        holder.diagnosticoText.text = paciente.diagnostico
 
-    override fun getItemCount() = pacientes.size
-
-    class PacienteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvNombrePaciente: TextView = itemView.findViewById(R.id.tvNombrePaciente)
-        private val tvEdad: TextView = itemView.findViewById(R.id.tvEdad)
-        private val tvTelefono: TextView = itemView.findViewById(R.id.tvTelefono)
-        private val tvEmail: TextView = itemView.findViewById(R.id.tvEmail)
-        private val tvDiagnostico: TextView = itemView.findViewById(R.id.tvDiagnostico)
-
-        fun bind(paciente: PacienteEntity) {
-            tvNombrePaciente.text = "${paciente.nombre} ${paciente.apellido}"
-            tvEdad.text = "${paciente.edad} años"
-            tvTelefono.text = paciente.telefono
-            tvEmail.text = paciente.email
-            tvDiagnostico.text = paciente.diagnostico
+        // Click listener para seleccionar el paciente
+        holder.itemView.setOnClickListener {
+            onItemClick(paciente)
         }
     }
+
+    override fun getItemCount(): Int = lista.size
+
+    fun updateData(newLista: List<PacienteEntity>) {
+        lista.clear()
+        lista.addAll(newLista)
+        notifyDataSetChanged()
+    }
+
+    // Método para acceder a la lista desde el Fragment
+    fun getLista(): MutableList<PacienteEntity> = lista
 }
