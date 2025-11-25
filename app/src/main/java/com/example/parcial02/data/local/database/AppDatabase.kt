@@ -10,8 +10,11 @@ import com.example.parcial02.data.local.entities.MedicoEntity
 import com.example.parcial02.data.local.entities.PacienteEntity
 
 @Database(
-    entities = [PacienteEntity::class, MedicoEntity::class],
-    version = 1,
+    entities = [
+        PacienteEntity::class,
+        MedicoEntity::class    // <-- NUEVO
+    ],
+    version = 2,               // <-- SUBIR VERSION
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -25,11 +28,15 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
+
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     "hospital_db"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration() // <-- EVITA CRASH AL SUBIR VERSION
+                    .build()
+
                 INSTANCE = instance
                 instance
             }

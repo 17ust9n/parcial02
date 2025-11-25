@@ -7,9 +7,9 @@
     android:background="#FF0000"
     android:padding="24dp">
 
-    <!-- Panel principal con botones -->
+    <!-- Panel principal tipo tarjeta -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardMenu"
+        android:id="@+id/cardAcerca"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -27,69 +27,51 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <!-- Título -->
             <TextView
+                android:id="@+id/tvTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Menú Principal"
+                android:text="¿Quiénes somos?"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="#333333"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Párrafo explicativo -->
+            <TextView
+                android:id="@+id/tvDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bienvenido a nuestro hospital. En él, recopilamos información de cada uno
+                de nuestros pacientes y médicos. Ofrecemos soluciones innovadoras para mejorar la vida de
+                nuestros pacientes, proporcionando servicios confiables y de alta calidad."
+                android:textSize="16sp"
+                android:textColor="#555555"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Ubicación -->
+            <TextView
+                android:id="@+id/tvUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ubicación: Av Corrientes 2037, Balvanera, CABA"
+                android:textSize="16sp"
+                android:textColor="#555555"
                 android:layout_marginBottom="24dp"/>
 
+            <!-- Botón volver -->
             <Button
-                android:id="@+id/btnMedicos"
+                android:id="@+id/btnVolver"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Médicos"
-                android:backgroundTint="#FF0000"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:layout_marginBottom="16dp"/>
-
-            <Button
-                android:id="@+id/btnPacientes"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Pacientes"
-                android:backgroundTint="#2196F3"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:layout_marginBottom="16dp"/>
-
-            <Button
-                android:id="@+id/btnAcerca"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Quienes Somos"
-                android:backgroundTint="#4CAF50"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:layout_marginBottom="16dp"/>
-
-
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Cerrar Sesión"
+                android:text="Volver"
                 android:backgroundTint="#757575"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"/>
 
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
-
-    <!-- Contenedor para Fragments (inicialmente oculto) -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
